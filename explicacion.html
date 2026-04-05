@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Explicación</title>
+
+<style>
+body{
+    font-family:'Segoe UI';
+    background:#0d1117;
+    color:white;
+}
+.container{
+    max-width:700px;
+    margin:40px auto;
+    background:#161b22;
+    padding:25px;
+    border-radius:12px;
+}
+.box{
+    background:#21262d;
+    padding:10px;
+    border-radius:8px;
+    margin:10px 0;
+}
+a{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    background:#238636;
+    padding:10px;
+    border-radius:6px;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1> Modelo de Enfriamiento</h1>
+
+<h2>¿Qué es?</h2>
+<p>
+Es un modelo matemático que permite calcular cuánto tiempo ha pasado desde el fallecimiento usando la temperatura del cuerpo.
+</p>
+
+<h2>¿Cómo funciona?</h2>
+<p>
+El cuerpo humano inicia aproximadamente a 37°C y después de morir se enfría hasta alcanzar la temperatura del ambiente.
+</p>
+
+<div class="box">
+ La temperatura disminuye con el tiempo.
+</div>
+
+<h2>Fórmula</h2>
+<div class="box">
+T(t) = Ta + (T0 - Ta)e^(-kt)
+</div>
+
+<h2>Variables</h2>
+<ul>
+<li><b>Ta:</b> temperatura ambiente</li>
+<li><b>T:</b> temperatura del cuerpo</li>
+<li><b>k:</b> rapidez de enfriamiento</li>
+</ul>
+
+<h2> Condición importante</h2>
+<div class="box">
+La temperatura del cuerpo debe ser mayor que la del ambiente.<br><br>
+
+-Esto ocurre porque el modelo describe el proceso de enfriamiento del cuerpo después del fallecimiento.<br><br>
+
+-Cuando una persona fallece, su cuerpo está aproximadamente a 37°C y comienza a perder calor hasta igualarse con el entorno.<br><br>
+
+-La fórmula usa un logaritmo, y para que funcione correctamente, la diferencia entre la temperatura del cuerpo y la del ambiente debe ser positiva.<br><br>
+
+Si la temperatura del cuerpo es igual o menor que la del ambiente, el cálculo matemático deja de ser válido y el resultado no se puede obtener.
+</div>
+
+
+<h2> Ejemplo </h2>
+<div class="box">
+Ambiente: 20°C<br>
+k: 0.05<br>
+Tiempo: 2 h<br>
+Temperatura: 32°C
+</div>
+
+<a href="index.html">⬅ Volver al modelo</a>
+<h6> Denisse Valeria Guzman Barragan </h6>
+</div>
+
+</body>
+</html>

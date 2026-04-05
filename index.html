@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Modelo de Enfriamiento</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+    font-family:'Segoe UI';
+    background:#0d1117;
+    color:white;
+    text-align:center;
+}
+.container{
+    background:#161b22;
+    margin:40px auto;
+    padding:25px;
+    border-radius:12px;
+    width:360px;
+}
+input,button{
+    width:90%;
+    margin:8px;
+    padding:10px;
+    border-radius:6px;
+}
+button{
+    background:#238636;
+    color:white;
+    border:none;
+}
+canvas{
+    background:#0d1117;
+}
+a{color:#58a6ff;}
+#res{
+    white-space:pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🧊 Modelo de Enfriamiento</h2>
+<a href="explicacion.html"> Ver explicación completa</a>
+
+<div class="container">
+<h5>Inserta la temperatura ambiente: </h5>
+<input type="number" id="Ta" placeholder="Temperatura ambiente (°C)">
+
+<h5>Inserta la constante: </h5>
+<input type="number" id="k" placeholder="Constante k (ej: 0.05)">
+
+<h3>Agregar medición</h3>
+<h5>Horas transcurridas desde el fallecimiento </h5>
+<input type="number" id="tiempo" placeholder="Tiempo (horas)">
+
+<h5>Temperatura real que tiene el cuerpo en el momento en que se mide</h5>
+<h6> NOTA:(La temperatura del cuerpo debe ser mayor al ambiente.)</h6>
+<input type="number" id="temp" placeholder="Temperatura del cuerpo (°C)">
+
+<button onclick="agregar()">Agregar medición</button>
+<button onclick="calcular()">Calcular</button>
+
+<div id="res"></div>
+<canvas id="grafica"></canvas>
+
+</div>
+
+<script>
+let mediciones=[];
+let chart;
+
+function agregar(){
+
+ let t=parseFloat(document.getElementById("tiempo").value);
+ let T=parseFloat(document.getElementById("temp").value);
+
+ if(isNaN(t)||isNaN(T)){
+  alert("Completa los datos");
+  return;
+ }
+
+ mediciones.push({t,T});
+ alert("Medición agregada, ahora ya puedes calcular ");
+}
+
+function calcular(){
+
+ let Ta=parseFloat(document.getElementById("Ta").value);
+ let k=parseFloat(document.getElementById("k").value);
+ let T0=37;
+
+ if(isNaN(Ta)||isNaN(k)||k<=0||mediciones.length==0){
+ document.getElementById("res").innerText="❌ Datos inválidos";
+ return;
+ }
+
+ let ultima=mediciones[mediciones.length-1];
+
+ if(ultima.T <= Ta){
+ document.getElementById("res").innerText="❌ El cuerpo debe estar más caliente que el ambiente";
+ return;
+ }
+
+ let t=-(1/k)*Math.log((ultima.T-Ta)/(T0-Ta));
+
+ let ahora=new Date();
+ let horaMuerte=new Date(ahora.getTime()-t*3600000);
+
+ 
+ let horas = Math.floor(t);
+ let minutos = Math.round((t - horas) * 60);
+
+ let opciones = {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+ };
+
+ document.getElementById("res").innerText =
+ "⏱ Tiempo desde el fallecimiento:\n" +
+ horas + " horas y " + minutos + " minutos\n\n" +
+ "🕒 Hora estimada de fallecimiento:\n" +
+ horaMuerte.toLocaleString('es-MX', opciones);
+
+ let tiempos=[], valores=[];
+ for(let i=0;i<=10;i+=0.5){
+  let temp=Ta+(T0-Ta)*Math.exp(-k*i);
+  tiempos.push(i);
+  valores.push(temp);
+ }
+
+ let y=mediciones.map(m=>m.T);
+
+ let ctx=document.getElementById("grafica").getContext("2d");
+ if(chart) chart.destroy();
+
+ chart=new Chart(ctx,{
+  type:"line",
+  data:{
+   labels:tiempos,
+   datasets:[
+    {label:"Modelo de enfriamiento",data:valores},
+    {label:"Mediciones reales",data:y,showLine:false}
+   ]
+  }
+ });
+}
+</script>
+
+<h6> (No dejes campos vacíos)</h6>
+
+</body>
+</html>
+
+
